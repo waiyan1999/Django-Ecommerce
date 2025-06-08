@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show </title>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+
+            $('#editBtn').click(
+                function(){
+                    var exp = $('#exp').val();
+                    var amt = $('#amt').val();
+                    var cat = $('#cat').val();
+
+                    $.ajax(
+                        {
+                        url : '/createexpense/',
+                        method :'GET',
+                        data : {expense:exp , amount:amt, category:cat}
+                        }
+                    );
+
+
+                });
+
+        });
+    </script>
+</head>
+<body>
+
+    <h1> This is Show</h1>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        Name
+      <input type="text" name="" id="exp" placeholder="Name" ><br>
+        Amount
+      <input type="number" name="" id="amt" placeholder="Amount"> <br> <br>
+
+      <select name="" id="cat" >
+        <option value="1">Income</option>
+        <option value="2">Expnese</option>
+      </select>
+      <br>
+
+        <input type="submit" name="" id="editBtn" value="Edit" >
+    </form>
+    
+</body>
+</html>

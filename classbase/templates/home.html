@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script>
+
+        $(document).ready(function(){
+            $('#SaveBtn').click(
+                function(){
+                    const expense = $('#expense').val();
+                    const amount = $('#amount').val();
+                    const cat = $('#cat').val();
+
+                    $.ajax({
+                        url : '/createexpense/',
+                        mehtod : 'GET',
+                        data : {expense: expense , amount: amount , cat: cat},
+                        success: function(){
+                            alert('success');
+                            location.reload();}
+                    }
+                        
+
+                    );
+                   
+                }
+            );
+
+
+            $('.delBtn').click(
+                function(){
+                    // var currentrow = $(this).closest('.mylist');
+                    // var pid = currentrow.find('.pid').html();
+
+                    var pid = $(this).data('id');
+                    // alert(pid)
+
+
+                    $.ajax({
+                        url : "/delete_expense/",
+                        method : 'GET',
+                        data : {pd: pid},
+                        delete: function(response) {
+                            
+                            location.reload();
+                        }
+                        
+                    })
+                }
+            );
+
+
+            $('.editBtn').click(
+                function(){
+
+                    var editId = $(this).data('id');
+                    // var expense = $('#expense').val();
+                    // var amount = $('#amount').val();
+                    // var cat = $('#cat').val();
+                     alert(editId);
+
+                    $.ajax(
+                        {
+                            url : "/ep/",
+                            method : 'GET',
+                            data: { eid : editId, 
+                                // expense: expense , amount: amount , cat: cat
+                            },
+
+                            success : function(){
+                                 alert('gg');
+                                window.location.href = '/show/';
+                            }
+                        }
+                    );
+                }
+            );
+
+            
+
+
+        });
+        
+    </script>
+
+</head>
+<body>
+
+    <form action="">
+        <input type="text" name=""  placeholder="Name" id="expense">
+        <input type="number" name=""  placeholder="Amount" id="amount">
+
+        <select name="cat" id="cat">
+            <option value="1">Income</option>
+            <option value="2">Expense</option>
+
+        <input type="submit" name=""  value="Save" id="SaveBtn">
+        </select>
+    </form>
+    <hr>
+
+
+    
+        
+        {% for i in data_obj %}
+        <div class="mylist">
+        <div id="pid"> {{ i.id }}</div> <br>
+        
+        {{ i.category }} <br>
+         
+        {{ i.task_name }} <br>
+        {{ i.amount }} <br>
+        
+       <input type="submit" name="" id="" value="Delete" class="delBtn" data-id="{{i.id}}">
+
+       <input type="submit" name="" id="" value="Edit" class="editBtn" data-id="{{ i.id }}">
+
+      
+       
+        <hr>
+         </div>
+        {% endfor %}
+    
+
+
+    
+</body>
+</html>
